@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './randomChar.css';
 import GotService from "../../services/gotService";
 import Spinner from "../spinner/spinner";
+import ErrorMessage from "../errorMessage/errorMessage";
 
 //компонент генерирует споказ случайного персонажа
 export default class RandomChar extends Component {
@@ -21,7 +22,8 @@ export default class RandomChar extends Component {
       died: null,
       culture: null
     },
-    loading: true
+    loading: true,
+    error: false
   }
 
   //получаем данные от сервера и вносим их в state
@@ -31,18 +33,26 @@ export default class RandomChar extends Component {
     //изменияем state
     this.gotService.getCharacter(id)
       .then(({name, gender, born, died, culture}) => {
-        this.setState({char: {name, gender, born, died, culture}, loading: false})
+        this.setState({char: {name, gender, born, died, culture}, loading: false,})
+      })
+      .catch(this.onError)
+  }
+
+  onError = (err) => {
+      this.setState({
+        error: true,
+        loading: false
       })
   }
 
   render() {
 
-    const {char: {name, gender, born, died, culture}, loading} = this.state;
+    const {char: {name, gender, born, died, culture}, loading, error} = this.state;
 
     return (
 
       <div className="random-block rounded">
-        {loading ? <Spinner/> :
+        {loading ? <Spinner/> : error ? <ErrorMessage/> :
           <>
             <h4>Random Character: {name}</h4>
             <ul className="list-group list-group-flush">
