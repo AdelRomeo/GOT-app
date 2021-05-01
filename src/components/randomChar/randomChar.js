@@ -7,11 +7,6 @@ import ErrorMessage from "../errorMessage/errorMessage";
 //компонент генерирует споказ случайного персонажа
 export default class RandomChar extends Component {
 
-  constructor() {
-    super();
-    this.upDateChar();
-  }
-
   gotService = new GotService();
 
   state = {
@@ -26,6 +21,23 @@ export default class RandomChar extends Component {
     error: false
   }
 
+  componentDidMount() {
+    this.upDateChar();
+    this.timerId = setInterval(()=>this.upDateChar(), 4000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerId)
+  }
+
+
+  onError = (err) => {
+    this.setState({
+      error: true,
+      loading: false
+    })
+  }
+
   //получаем данные от сервера и вносим их в state
   upDateChar() {
     //генерируем рандомное число от 10 до 150
@@ -36,13 +48,6 @@ export default class RandomChar extends Component {
         this.setState({char: {name, gender, born, died, culture}, loading: false,})
       })
       .catch(this.onError)
-  }
-
-  onError = (err) => {
-    this.setState({
-      error: true,
-      loading: false
-    })
   }
 
   render() {
