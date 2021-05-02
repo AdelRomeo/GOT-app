@@ -18,18 +18,16 @@ export default class ItemList extends Component {
         this.setState({
           charList
         })
-        console.log(charList)
       })
   }
 
   renderCharList = (arr) => {
     return arr.map((char, i) => {
-      console.log(i)
       return (
         <li
           key={i}
           className="list-group-item"
-          //onClick={this.props.onCharFullInfo(i)}
+          onClick={() => this.props.onCharFullInfo(41 + i)}
         >
           {char.name}
         </li>
