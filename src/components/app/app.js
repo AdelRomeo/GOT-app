@@ -1,21 +1,26 @@
 import React, {Component} from 'react';
 import {Col, Row, Container} from 'reactstrap';
 import Header from '../header';
-import RandomChar from '../randomChar';
+import RandomChar from "../randomChar/randomChar";
 import CharacterPage from "../characterPage/characterPage";
 import ErrorMessage from "../errorMessage/errorMessage";
 import './app.css'
+import ItemList from "../itemList";
+import CharDetails from "../charDetails";
+import GotService from "../../services/gotService";
 
 
 export default class App extends Component {
 
-  state ={
+  gotService = new GotService();
+
+  state = {
     visibleRandomChar: true,
     errorApp: false
   }
 
   //переключение видимости блока с рандомным персонажем и отображение нового персонажа
-  toggleRandomChar = () =>{
+  toggleRandomChar = () => {
     this.setState({
       visibleRandomChar: !this.state.visibleRandomChar
     })
@@ -29,7 +34,7 @@ export default class App extends Component {
 
   render() {
 
-    if (this.state.errorApp){
+    if (this.state.errorApp) {
       return <ErrorMessage/>
     }
 
@@ -46,6 +51,30 @@ export default class App extends Component {
             </Col>
           </Row>
           <CharacterPage/>
+          <Row>
+            <Col md='6'>
+              <ItemList
+                //onCharSelected={this.onCharSelected}
+                getData={this.gotService.getAllBooks}
+                renderItem={item => `${item.name}`}
+              />
+            </Col>
+            <Col md='6'>
+              <CharDetails charId={this.state.visibleRandomChar}/>
+            </Col>
+          </Row>
+          <Row>
+            <Col md='6'>
+              <ItemList
+                //onCharSelected={this.onCharSelected}
+                getData={this.gotService.getAllHouses}
+                renderItem={item => `${item.name}`}
+              />
+            </Col>
+            <Col md='6'>
+              <CharDetails charId={this.state.visibleRandomChar}/>
+            </Col>
+          </Row>
         </Container>
       </>
     );

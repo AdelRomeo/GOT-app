@@ -1,16 +1,20 @@
 import React, {Component} from 'react'
-import {Col, Row, Container} from 'reactstrap'
 import ItemList from "../itemList";
 import CharDetails from "../charDetails";
+import GotService from "../../services/gotService";
+import itemList from "../itemList/itemList";
+import RowBlock from "../rowBlock/rowBlock";
 
 export default class CharacterPage extends Component {
 
-  state ={
-    selectedChar: 130
+  gotService = new GotService();
+
+  state = {
+    selectedChar: 41
   }
 
   //определение персонажа для отображения подробной информации
-  onCharFullInfo = (id)=>{
+  onCharFullInfo = (id) => {
     this.setState({
       selectedChar: id
     })
@@ -18,15 +22,21 @@ export default class CharacterPage extends Component {
 
 
   render() {
+
+    const itemList = (
+      <ItemList
+        onCharFullInfo={this.onCharFullInfo}
+        getData={this.gotService.getAllCharacters}
+        renderItem={item => `${item.name} (${item.gender})`}
+      />
+    )
+
+    const charDetails = (
+      <CharDetails selectedChar={this.state.selectedChar}/>
+    )
+
     return (
-      <Row>
-        <Col md='6'>
-          <ItemList onCharFullInfo={this.onCharFullInfo}/>
-        </Col>
-        <Col md='6'>
-          <CharDetails selectedChar={this.state.selectedChar}/>
-        </Col>
-      </Row>
+      <RowBlock left={itemList} right={charDetails}/>
     )
   }
 }

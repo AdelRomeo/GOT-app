@@ -8,28 +8,44 @@ export default class ItemList extends Component {
   gotService = new GotService();
 
   state = {
-    charList: null
+    itemList: null
   }
 
   //получем список персонажей
   componentDidMount() {
-    this.gotService.getAllCharacters()
-      .then((charList) => {
+
+    const {getData} = this.props;
+
+    getData()
+      .then((itemList) => {
         this.setState({
-          charList
+          itemList
         })
       })
   }
 
-  renderCharList = (arr) => {
-    return arr.map((char, i) => {
+  //получение цифр из строки url
+  getNumbers = (string) => {
+    const arr = string.match(/\d/g);
+    let id = ''
+    arr.forEach(i => id += i)
+    return parseInt(id)
+  }
+
+
+  //список элементов помещаемых на страницу (список персонажей, книг, домов)
+  renderItemsList = (arr) => {
+    return arr.map((item) => {
+      const id = this.getNumbers(item.url)
+      //получаем name из item
+      const label = this.props.renderItem(item)
       return (
         <li
-          key={i}
+          key={id}
           className="list-group-item"
-          onClick={() => this.props.onCharFullInfo(41 + i)}
+          onClick={() => this.props.onCharFullInfo(id)}
         >
-          {char.name}
+          {label}
         </li>
       )
     })
@@ -38,14 +54,14 @@ export default class ItemList extends Component {
   render() {
 
     //массив объектов персонажей
-    const {charList} = this.state;
+    const {itemList} = this.state;
 
-    if (!charList) {
+    if (!itemList) {
       return <Spinner/>
     }
 
     //верстка для рендера
-    const items = this.renderCharList(charList);
+    const items = this.renderItemsList(itemList);
 
     return (
       <ul className="item-list list-group">
