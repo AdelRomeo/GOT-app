@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import ItemList from "../itemList";
 import CharDetails from "../charDetails";
 import GotService from "../../services/gotService";
-import itemList from "../itemList/itemList";
 import RowBlock from "../rowBlock/rowBlock";
+import {Field} from "../charDetails/charDetails";
 
 export default class CharacterPage extends Component {
 
@@ -13,8 +13,8 @@ export default class CharacterPage extends Component {
     selectedChar: 41
   }
 
-  //определение персонажа для отображения подробной информации
-  onCharFullInfo = (id) => {
+  //определение элемента для отображения подробной информации
+  onItemFullInfo = (id) => {
     this.setState({
       selectedChar: id
     })
@@ -25,14 +25,19 @@ export default class CharacterPage extends Component {
 
     const itemList = (
       <ItemList
-        onCharFullInfo={this.onCharFullInfo}
+        onItemFullInfo={this.onItemFullInfo}
         getData={this.gotService.getAllCharacters}
         renderItem={item => `${item.name} (${item.gender})`}
       />
     )
 
     const charDetails = (
-      <CharDetails selectedChar={this.state.selectedChar}/>
+      <CharDetails selectedChar={this.state.selectedChar}>
+        <Field field='gender' label='Gender'/>
+        <Field field='born' label='Born'/>
+        <Field field='died' label='Died'/>
+        <Field field='culture' label='Culture'/>
+      </CharDetails>
     )
 
     return (
