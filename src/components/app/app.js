@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {Col, Row, Container} from 'reactstrap';
 import Header from '../header';
 import RandomChar from "../randomChar/randomChar";
-import CharacterPage from "../characterPage/characterPage";
+import CharacterPage from "../pages/characterPage/characterPage";
+import BookPage from "../pages/bookPage/bookPage";
 import ErrorMessage from "../errorMessage/errorMessage";
 import './app.css'
 import ItemList from "../itemList";
-import CharDetails from "../charDetails";
+import ItemDetails from "../itemDetails/itemDetails";
 import GotService from "../../services/gotService";
 
 
@@ -51,18 +52,7 @@ export default class App extends Component {
             </Col>
           </Row>
           <CharacterPage/>
-          <Row>
-            <Col md='6'>
-              <ItemList
-                //onCharSelected={this.onCharSelected}
-                getData={this.gotService.getAllBooks}
-                renderItem={item => `${item.name}`}
-              />
-            </Col>
-            <Col md='6'>
-              <CharDetails charId={this.state.visibleRandomChar}/>
-            </Col>
-          </Row>
+          <BookPage/>
           <Row>
             <Col md='6'>
               <ItemList
@@ -72,7 +62,7 @@ export default class App extends Component {
               />
             </Col>
             <Col md='6'>
-              <CharDetails charId={this.state.visibleRandomChar}/>
+              <ItemDetails charId={this.state.visibleRandomChar}/>
             </Col>
           </Row>
         </Container>

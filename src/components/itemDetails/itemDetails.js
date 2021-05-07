@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './charDetails.css';
+import './itemDetails.css';
 import GotService from "../../services/gotService";
 
 //item - элемент с которым работаем
@@ -14,7 +14,7 @@ export const Field = ({char, field, label})=>{
   )
 }
 
-export default class CharDetails extends Component {
+export default class ItemDetails extends Component {
 
   state = {
     char: null
@@ -22,21 +22,23 @@ export default class CharDetails extends Component {
 
   gotService = new GotService();
 
-  showInfoChar() {
+  //отображение информации нужного элемента
+  showInfoItem() {
     if (!this.props.selectedChar) {
       return
     }
-    this.gotService.getCharacter(this.props.selectedChar)
+    this.props.item(this.props.selectedChar)
       .then(char => this.setState({char}))
+    console.log(this.props)
   }
 
   componentDidMount() {
-    this.showInfoChar()
+    this.showInfoItem()
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.selectedChar !== prevProps.selectedChar){
-      this.showInfoChar()
+      this.showInfoItem()
     }
   }
 
