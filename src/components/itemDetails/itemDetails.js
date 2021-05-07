@@ -27,9 +27,9 @@ export default class ItemDetails extends Component {
     if (!this.props.selectedChar) {
       return
     }
-    this.props.item(this.props.selectedChar)
+    this.props.serviceHandler(this.props.selectedChar)
       .then(char => this.setState({char}))
-    console.log(this.props)
+    console.log(this.state.char)
   }
 
   componentDidMount() {

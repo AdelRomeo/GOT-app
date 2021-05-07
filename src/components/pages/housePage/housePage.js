@@ -4,7 +4,7 @@ import ItemDetails, {Field} from "../../itemDetails/itemDetails";
 import GotService from "../../../services/gotService";
 import RowBlock from "../../rowBlock/rowBlock";
 
-export default class BookPage extends Component {
+export default class HousePage extends Component {
 
   gotService = new GotService();
 
@@ -25,17 +25,15 @@ export default class BookPage extends Component {
     const itemList = (
       <ItemList
         onItemFullInfo={this.onItemFullInfo}
-        getData={this.gotService.getAllBooks}
+        getData={this.gotService.getAllHouses}
         renderItem={item => `${item.name}`}
       />
     )
 
     const bookDetails = (
-      <ItemDetails selectedChar={this.state.selectedChar} serviceHandler={this.gotService.getBook}>
-        <Field field='authors' label='Authors'/>
-        <Field field='country' label='Country'/>
-        <Field field='publisher' label='Publisher'/>
-        <Field field='released' label='Released'/>
+      <ItemDetails selectedChar={this.state.selectedChar} serviceHandler={this.gotService.getHouses}>
+        <Field field='region' label='Region'/>
+        <Field field='words' label='Words'/>
       </ItemDetails>
     )
 

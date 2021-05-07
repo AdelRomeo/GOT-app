@@ -30,17 +30,17 @@ export default class CharacterPage extends Component {
       />
     )
 
-    // const charDetails = (
-    //   <ItemDetails selectedChar={this.state.selectedChar}>
-    //     <Field field='gender' label='Gender'/>
-    //     <Field field='born' label='Born'/>
-    //     <Field field='died' label='Died'/>
-    //     <Field field='culture' label='Culture'/>
-    //   </ItemDetails>
-    // )
+    const charDetails = (
+      <ItemDetails selectedChar={this.state.selectedChar} serviceHandler={this.gotService.getCharacter}>
+        <Field field='gender' label='Gender'/>
+        <Field field='born' label='Born'/>
+        <Field field='died' label='Died'/>
+        <Field field='culture' label='Culture'/>
+      </ItemDetails>
+    )
 
     return (
-      <RowBlock left={itemList} />
+      <RowBlock left={itemList} right={charDetails}/>
     )
   }
 }
